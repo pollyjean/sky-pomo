@@ -1,32 +1,11 @@
 import { useRecoilValue } from "recoil";
-import { TO_MILLISECONDS, TO_SECONDS } from "../commonConfig";
-import { TimerWrap, NumberBox } from "../styles";
-import { remainState } from "../atoms";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { TO_MILLISECONDS, TO_SECONDS } from "../commonConfig";
+import { TimerWrap } from "../styles";
+import { remainState } from "../atoms";
+import { NumberPlate } from ".";
 
-const S = { TimerWrap, NumberBox };
-
-const timeChange = {
-  initial: {
-    opacity: 0.9,
-    scale: 0.8,
-  },
-  animate: {
-    opacity: 1,
-    scale: 1,
-  },
-  exit: {
-    opacity: 0.9,
-    scale: 0.8,
-  },
-};
-
-const timeTransition = {
-  type: "spring",
-  duration: 0.8,
-  damping: 8.5,
-};
+const S = { TimerWrap };
 
 const Timer = () => {
   const remain = useRecoilValue(remainState);
@@ -40,35 +19,9 @@ const Timer = () => {
   }, [remain]);
   return (
     <S.TimerWrap>
-      <S.NumberBox>
-        <AnimatePresence>
-          <motion.div
-            key={minutes}
-            variants={timeChange}
-            initial="initial"
-            animate="animate"
-            transition={timeTransition}
-            exit="exit"
-          >
-            {minutes.toString().padStart(2, "0")}
-          </motion.div>
-        </AnimatePresence>
-      </S.NumberBox>
+      <NumberPlate number={minutes} />
       <span>:</span>
-      <S.NumberBox>
-        <AnimatePresence>
-          <motion.div
-            key={seconds}
-            variants={timeChange}
-            initial="initial"
-            animate="animate"
-            transition={timeTransition}
-            exit="exit"
-          >
-            {seconds.toString().padStart(2, "0")}
-          </motion.div>
-        </AnimatePresence>
-      </S.NumberBox>
+      <NumberPlate number={seconds} />
     </S.TimerWrap>
   );
 };
