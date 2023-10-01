@@ -1,5 +1,5 @@
 import { Main } from "./styles";
-import { Timer, Player, GoalDisplay } from "./components";
+import { Timer, Player, Goals } from "./components";
 
 const S = { Main };
 
@@ -9,7 +9,7 @@ const App = () => {
       <h1>Pomodoro</h1>
       <Timer />
       <Player />
-      <GoalDisplay />
+      <Goals />
     </S.Main>
   );
 };

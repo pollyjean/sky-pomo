@@ -30,18 +30,24 @@ export const TimerWrap = styled.section`
 `;
 
 export const NumberBox = styled.div`
-  background-color: #fff;
+  position: relative;
   width: 10rem;
   height: 15rem;
-  color: tomato;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
-  font-size: 6rem;
-  font-family: sans-serif;
-  font-weight: bolder;
-  border-radius: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: #fff;
+    color: tomato;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+    font-size: 6rem;
+    font-family: sans-serif;
+    font-weight: bolder;
+    border-radius: 1rem;
+    width: 100%;
+    height: 100%;
+  }
 `;
 export const PlayWrap = styled.div`
   display: flex;

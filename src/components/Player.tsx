@@ -1,19 +1,53 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { motion } from "framer-motion";
 import { PlayWrap, Button, Icon } from "../styles";
-import { minutesState, playState, secondsState } from "../atoms";
+import { goalState, playState, remainState, roundState } from "../atoms";
+import { useRef } from "react";
+import { GOAL_LIMITS, POMO_MILLISECONDS, ROUND_LIMITS, TO_MILLISECONDS } from "../commonConfig";
 
 const S = { PlayWrap, Button, Icon };
 
 const Player = () => {
   const [play, setPlay] = useRecoilState(playState);
-  const setMinutes = useSetRecoilState(minutesState);
-  const setSeconds = useSetRecoilState(secondsState);
+  const [remain, setRemain] = useRecoilState(remainState);
+  const [round, setRound] = useRecoilState(roundState);
+  const [goal, setGoal] = useRecoilState(goalState);
+  const milliSeconds = useRef(remain);
+  const timerId = useRef<number | null>(null);
+
   const startTimer = () => {
+    setRemain(milliSeconds.current);
+    milliSeconds.current = remain;
+    milliSeconds.current = milliSeconds.current - TO_MILLISECONDS;
+    timerId.current = setInterval(() => {
+      setRemain(milliSeconds.current);
+      if (milliSeconds.current < 0) {
+        pauseTimer();
+        setRemain(POMO_MILLISECONDS);
+        roundUp();
+      }
+      milliSeconds.current = milliSeconds.current - TO_MILLISECONDS;
+    }, TO_MILLISECONDS);
     setPlay(true);
   };
   const pauseTimer = () => {
+    clearInterval(timerId.current as number);
     setPlay(false);
+  };
+  const roundUp = () => {
+    if (round === ROUND_LIMITS) {
+      setRound(0);
+      goalUp();
+    } else {
+      setRound((prev) => prev + 1);
+    }
+  };
+  const goalUp = () => {
+    if (goal === GOAL_LIMITS) {
+      setGoal(GOAL_LIMITS);
+    } else {
+      setGoal((prev) => prev + 1);
+    }
   };
   return (
     <S.PlayWrap>

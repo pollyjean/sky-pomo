@@ -1,24 +1,29 @@
 import { useRecoilValue } from "recoil";
 import { GoalWrap, Goal } from "../styles";
 import { goalState, roundState } from "../atoms";
+import { GOAL_LIMITS, ROUND_LIMITS } from "../commonConfig";
 
 const S = { GoalWrap, Goal };
 
-const GoalDisplay = () => {
+const Goals = () => {
   const round = useRecoilValue(roundState);
   const goal = useRecoilValue(goalState);
   return (
     <S.GoalWrap>
       <S.Goal>
-        <span>{round}/4</span>
+        <span>
+          {round}/{ROUND_LIMITS}
+        </span>
         <strong>Round</strong>
       </S.Goal>
       <S.Goal>
-        <span>{goal}/12</span>
+        <span>
+          {goal}/{GOAL_LIMITS}
+        </span>
         <strong>GOAL</strong>
       </S.Goal>
     </S.GoalWrap>
   );
 };
 
-export default GoalDisplay;
+export default Goals;
