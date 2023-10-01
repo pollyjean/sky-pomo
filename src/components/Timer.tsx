@@ -9,19 +9,23 @@ const S = { TimerWrap, NumberBox };
 
 const timeChange = {
   initial: {
-    scale: 0.7,
+    opacity: 0.9,
+    scale: 0.8,
   },
   animate: {
+    opacity: 1,
     scale: 1,
   },
   exit: {
-    scale: 0.7,
+    opacity: 0.9,
+    scale: 0.8,
   },
 };
 
 const timeTransition = {
   type: "spring",
-  duration: 0.15,
+  duration: 0.8,
+  damping: 8.5,
 };
 
 const Timer = () => {
@@ -29,8 +33,10 @@ const Timer = () => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   useEffect(() => {
-    setMinutes(Math.floor(remain / TO_MILLISECONDS / TO_SECONDS));
-    setSeconds(Math.floor(remain / TO_MILLISECONDS) % TO_SECONDS);
+    const minuteCalculated = Math.floor(remain / TO_MILLISECONDS / TO_SECONDS);
+    const secondCalculated = Math.floor((remain / TO_MILLISECONDS) % TO_SECONDS);
+    minuteCalculated >= 0 && setMinutes(minuteCalculated);
+    secondCalculated >= 0 && setSeconds(secondCalculated);
   }, [remain]);
   return (
     <S.TimerWrap>
@@ -56,7 +62,7 @@ const Timer = () => {
             variants={timeChange}
             initial="initial"
             animate="animate"
-            transition={{ type: "spring" }}
+            transition={timeTransition}
             exit="exit"
           >
             {seconds.toString().padStart(2, "0")}

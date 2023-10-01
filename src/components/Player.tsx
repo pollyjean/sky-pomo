@@ -16,17 +16,16 @@ const Player = () => {
   const timerId = useRef<number | null>(null);
 
   const startTimer = () => {
-    setRemain(milliSeconds.current);
     milliSeconds.current = remain;
-    milliSeconds.current = milliSeconds.current - TO_MILLISECONDS;
+    setRemain(milliSeconds.current);
     timerId.current = setInterval(() => {
+      milliSeconds.current = milliSeconds.current - TO_MILLISECONDS;
       setRemain(milliSeconds.current);
-      if (milliSeconds.current < 0) {
+      if (milliSeconds.current < TO_MILLISECONDS) {
         pauseTimer();
         setRemain(POMO_MILLISECONDS);
         roundUp();
       }
-      milliSeconds.current = milliSeconds.current - TO_MILLISECONDS;
     }, TO_MILLISECONDS);
     setPlay(true);
   };
@@ -35,7 +34,7 @@ const Player = () => {
     setPlay(false);
   };
   const roundUp = () => {
-    if (round === ROUND_LIMITS) {
+    if (round === ROUND_LIMITS - 1) {
       setRound(0);
       goalUp();
     } else {
@@ -43,8 +42,8 @@ const Player = () => {
     }
   };
   const goalUp = () => {
-    if (goal === GOAL_LIMITS) {
-      setGoal(GOAL_LIMITS);
+    if (goal === GOAL_LIMITS - 1) {
+      setGoal(0);
     } else {
       setGoal((prev) => prev + 1);
     }
